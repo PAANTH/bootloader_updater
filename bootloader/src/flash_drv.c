@@ -16,7 +16,7 @@
  * 			 1 if new  core detected
  * Header struct:
  * ver.ddmmyyyyssss
- * where v. is a const;
+ * where ver. is a const;
  * ddmmyyyy - date of build
  * ssss - 4 bytes for size of a core(in bytes)
  */
@@ -37,7 +37,7 @@ uint8_t read_header(void){
 	return ret_val;
 }
 
-
+//TODO check for correct instructions for f107
 ///Copies a newly discovered version of a core to a place of an old one
 void replace_core(void){
 
@@ -73,7 +73,7 @@ void replace_core(void){
 void erase_sector(uint8_t sector){
 
 #if !defined (STM32F4XX) && !defined (STM32F40XX)
-#error "This procedure is for stm32f4. Otherwise check flash memory map"
+#error "This procedure is for stm32f1. Otherwise check flash memory map"
 #endif
 	FLASH_Status st;
 	switch (sector) {
