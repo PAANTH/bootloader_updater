@@ -5,7 +5,7 @@
  *      Author: paanth
  */
 
-//TODO read it and correct
+
 #include "flash_drv.h"
 #include "defs.h"
 #include "string.h"
@@ -44,12 +44,17 @@ uint8_t read_header(void){
 	return ret_val;
 }
 
-//TODO check for correct instructions for f107
+
 /**
- *  @brief  - copies a newly discovered version of a core to a place of an old one.
- *  @param  - none
- *  @return - 0	-	if all ok
- *  		  1	-	if error
+ *  @brief
+ *  	- copies a newly discovered version of a core to a place of an old one.
+ *
+ *  @param
+ *  	none
+ *
+ *  @return
+ *  	0	-	if all ok
+ *  	1	-	if error
  * */
 uint8_t replace_core(void){
 
