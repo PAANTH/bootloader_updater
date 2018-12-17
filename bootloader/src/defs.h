@@ -18,5 +18,10 @@
 #define CORE_HEADER_SIZE 			16
 #define APPLICATION_OFFSET  		0x4000
 
-
+typedef enum{
+	FLASH_OK = 0,
+	FLASH_RD_ERR = 1,
+	FLASH_WR_ERR = 2,
+	FLASH_ERASE_ERR = 3
+}errno_vals_t;
 #endif /* DEFS_H_ */

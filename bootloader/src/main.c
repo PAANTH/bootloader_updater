@@ -1,4 +1,9 @@
-
+/*
+ * main.c
+ *
+ *  Created on: Dec 10, 2018
+ *      Author: paanth
+ */
 /* Includes */
 #include <stddef.h>
 #include "stm32f10x.h"
@@ -8,10 +13,12 @@
 #include "misc.h"
 #include "defs.h"
 #include "sys_init.h"
-pFun jump_to_app;
 
+uint32_t errno = 0;
 /* Private function prototypes */
 typedef void (*pFun)(void);
+pFun jump_to_app;
+
 void check_core(void);
 
 
