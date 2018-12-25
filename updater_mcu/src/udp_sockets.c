@@ -1,34 +1,30 @@
-#include "main.h"
-
+#include "udp_sockets.h"
 #include "lwip/pbuf.h"
 #include "lwip/udp.h"
 #include <string.h>
 #include <stdio.h>
 
-#include "udp_sockets.h"
 #include "defs.h"
 #include "updater.h"
-#include "global_vars.h"
-
-
+//-----------------------------------------------------------------------------------//
 struct pbuf *p_tx;
 struct udp_pcb *upcb_tx;
 struct pbuf *p_upd_tx;
 struct udp_pcb *upcb_upd;
-//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------//
 
 
 void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, struct ip_addr *addr, u16_t port);
 void udp_upd_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, struct ip_addr *addr, u16_t port);
 void send_updater_ack(void);
 void send_updater_nack(void);
-//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------//
 
 uint8_t rx_buff[RX_PACKET_SIZE];
 uint8_t rx_upd_buff[RX_PACKET_SIZE];
 extern uint8_t g_upd;
 extern glob_vars_t g_vars;
-//-----------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------//
 
 void UDP_ReceiveConfiguration()
 {
