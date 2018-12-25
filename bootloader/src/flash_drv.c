@@ -17,15 +17,14 @@ extern uint32_t errno;
 uint32_t new_core_size = 0;
 
 /**
- * @brief - checks if a new version of core exists.
- * 			Header struct:
- * 			ver.ddmmyyyyssss
- * 			where ver. is a const;
- * 			ddmmyyyy - date of build
- * 			ssss - 4 bytes for size of a core(in bytes).
+ * @brief  checks if a new version of core exists.
+ * Header struct:
+ * ver.ddmmyyyyssss
+ * where ver. is a const;
+ * ddmmyyyy - date of build
+ * ssss - 4 bytes for size of a core(in bytes).
  * @param - none
- * @return  - 0 if no header
- * 			- 1 if new  core detected
+ * @return  - 0 if no header; 1 if new  core detected
  * */
 uint8_t read_header(void){
 	uint8_t ret_val=0;
@@ -46,15 +45,9 @@ uint8_t read_header(void){
 
 
 /**
- *  @brief
- *  	- copies a newly discovered version of a core to a place of an old one.
- *
- *  @param
- *  	none
- *
- *  @return
- *  	0	-	if all ok
- *  	1	-	if error
+ * @brief copies a newly discovered version of a core to a place of an old one.
+ * @param none
+ * @return	0-if all ok; 1-if error
  * */
 uint8_t replace_core(void){
 
@@ -62,7 +55,7 @@ uint8_t replace_core(void){
 	uint32_t addr_cpy_to = CURRENT_CORE_FLASH_ADDR;
 	uint32_t carrier_word=0;
 	uint8_t func_ret_val = 0;
-
+	FLASH_Status st;
 	//clear space for a new version
 	func_ret_val = erase_sector(CURRENT_CORE_FLASH_ADDR,8);
 	if(func_ret_val){
@@ -72,7 +65,7 @@ uint8_t replace_core(void){
 
 	//start copying
 	for(int i=0; i<new_core_size;i++){
-		carrier_byte = *(uint32_t*)addr_cpy_from;
+		carrier_word = *(uint32_t*)addr_cpy_from;
 		st=FLASH_ProgramWord(addr_cpy_to,carrier_word);
 		if(st != FLASH_COMPLETE){
 			errno = FLASH_WR_ERR;
@@ -85,12 +78,12 @@ uint8_t replace_core(void){
 }
 
 /**
- * @brief 	- erases a flash sector with core
- * @param	- uint32_t start_page_addr - address of a first page to erase
- *			- uint8_t amount of pages to erase
- * @return	- uint8_t ret_val 	- 0 if all ok;
- * 								- 1 if amount of pages is too high
- *								- 2 if flash erase error
+ * @brief erases a flash sector with core
+ * @param start_page_addr - address of a first page to erase
+ * @param amount of pages to erase
+ * @return ret_val-0 if all ok;
+ * 1 if amount of pages is too high
+ * 2 if flash erase error
 */
 uint8_t erase_sector(uint32_t start_page_addr, uint8_t pages_amount){
 

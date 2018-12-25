@@ -1,0 +1,3 @@
+main.c:32:6:__jump	32	static
+main.c:53:6:check_core	16	static
+main.c:81:5:main	16	static

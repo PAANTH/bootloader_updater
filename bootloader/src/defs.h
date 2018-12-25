@@ -9,7 +9,7 @@
 #define DEFS_H_
 
 #define SYSTEMTICK_PERIOD_MS 		1
-#define TX_PACKET_SIZE 				80
+#define TX_PACKET_SIZE				80
 #define RX_PACKET_SIZE 				12
 #define NEW_CORE_SECTOR 			4
 #define CURRENT_CORE_SECTOR 		1
@@ -17,7 +17,7 @@
 #define CURRENT_CORE_FLASH_ADDR 	0x08004000
 #define CORE_HEADER_SIZE 			16
 #define APPLICATION_OFFSET  		0x4000
-
+#define PAGES_AMOUNT_TO_ERASE		64
 typedef enum{
 	FLASH_OK = 0,
 	FLASH_RD_ERR = 1,
@@ -26,6 +26,3 @@ typedef enum{
 }errno_vals_t;
 #endif /* DEFS_H_ */
 
-/**
-*ss
-*/

@@ -13,19 +13,22 @@
 #include "misc.h"
 #include "defs.h"
 #include "sys_init.h"
-
+#include "flash_drv.h"
 uint32_t errno = 0;
-/* Private function prototypes */
+
+
 typedef void (*pFun)(void);
 pFun jump_to_app;
-
 void check_core(void);
 
 
 
 
-/* Private functions */
-
+/**
+ * @brief jump to main program
+ * @param addr - main program address
+ * @return none
+ * */
 void __jump(uint32_t addr){
 
 	uint32_t jump_address = *(__IO uint32_t*)(addr+4);
@@ -41,30 +44,26 @@ void __jump(uint32_t addr){
 }
 
 
-
-void check_core(){
+/**
+ * @brief the function checks whether there is a new core or not;
+ * if it is, replaces old core and erases new core flash sectors
+ * @param none
+ * @return none
+ * */
+void check_core(void){
 	uint8_t temp=0;
 	FLASH_Unlock();
 	temp = read_header();
-	if(temp == 0){ //no core or an error occurred
-		if(g_vars.errno != 0){ //if error
-			//place here a code to notify people that shit happened
-			return;
-		}
+	if(temp == 1){  //bingo! new core.
 
-
-		//all ok, just no new core
-
-	}
-	else{ //bingo! new core.
-		replace_core();
-		if(g_vars.errno != 0){ //if error
+		temp = replace_core();
+		if(temp != 0){ //if error
 			//place here a code to notify people that shit happened
 			return;
 		}
 		//otherwise erase already copied sector
-		erase_sector(NEW_CORE_SECTOR);
-		if(g_vars.errno != 0){ //if error
+		temp = erase_sector(NEW_CORE_FLASH_ADDR,PAGES_AMOUNT_TO_ERASE);
+		if(temp != 0){ //if error
 			//place here a code to notify people that shit happened
 			return;
 		}
@@ -83,15 +82,18 @@ int main(void)
 {
 	sys_init();
 	check_core();
-	if(g_vars.errno == 0 ){
+	if(errno == 0 ){
 		__jump(CURRENT_CORE_FLASH_ADDR);
 	}
 	//should not get here
 	while(1){
 		//place a code to show that an error occured
-		for(int i=0;i<1000000;i++){
-			GPIO_ToggleBits(GPIOD,GPIO_Pin_15);
-		}
+		for(int i=0;i<1000000;i++);
+		GPIO_SetBits(GPIOB,GPIO_Pin_15);
+
+		for(int i=0;i<1000000;i++);
+		GPIO_ResetBits(GPIOB,GPIO_Pin_15);
+
 	}
 
 }
