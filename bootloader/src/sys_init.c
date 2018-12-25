@@ -17,7 +17,7 @@
 void sys_init(void){
 
 	//led init led
-	RCC_AHBPeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
 	GPIO_InitTypeDef g;
 	g.GPIO_Mode = GPIO_Mode_Out_PP;
 	g.GPIO_Pin = GPIO_Pin_15;

@@ -9,11 +9,7 @@
 #define ETHERNET_H_
 
 void eth_initialisation(void);
-void ARPTableUpdate(void);
-void EthernetPacketsClear(void);
-void UDP_PacketsTransmit(void);
-void INTRPT_ETH_disable(void);
-void INTRPT_ETH_enable(void);
+void arp_tbl_upd(void);
 
 #endif /* ETHERNET_H_ */
 

@@ -4,11 +4,9 @@ File:     main.c
 
 ******************************************************************************
 */
-
-/* Includes */
-#include <stddef.h>
 #include "stm32f10x.h"
 
+//TODO clk config
 
 
 
