@@ -43,7 +43,7 @@ void eth_config(void)
 {
 //gpio config
 	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA | RCC_APB2Periph_GPIOB
-							| RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO,ENABLE);
+						| RCC_APB2Periph_GPIOC | RCC_APB2Periph_AFIO,ENABLE);
 
 
 	GPIO_InitTypeDef g;
@@ -64,12 +64,12 @@ void eth_config(void)
 
 	g.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5; //RMII_RXD0, RMII_RXD1
 	GPIO_Init(GPIOC,&g);
-//TODO why need PC8?
+	//TODO why need PC8?
 	g.GPIO_Mode = GPIO_Mode_Out_PP;
 	g.GPIO_Pin = GPIO_Pin_8; //??
 	GPIO_Init(GPIOC,&g);
 
-//nvic
+	//nvic
 	NVIC_InitTypeDef n;
 	//TODO check if it work without this line; should
 	//NVIC_SetVectorTable(NVIC_VectTab_FLASH,0x00);
@@ -80,19 +80,40 @@ void eth_config(void)
 	n.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&n);
 
-//eth clk
+	//eth clk
 	ETH_InitTypeDef e;
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_ETH_MAC | RCC_AHBPeriph_ETH_MAC_Tx | RCC_AHBPeriph_ETH_MAC_Rx,ENABLE);
 	GPIO_ETH_MediaInterfaceConfig(GPIO_ETH_MediaInterface_RMII);
 
 
+	RCC_PLL3Config(RCC_PLL3Mul_10); //PLL3 clkout is 50MHz
+	RCC_PLL3Cmd(ENABLE);
+	while(RCC_GetFlagStatus(RCC_FLAG_PLL3RDY));
+	RCC_MCOConfig(RCC_MCO_PLL3CLK);
+
+	ETH_DeInit();
+	ETH_SoftwareReset();
+	while(ETH_GetSoftwareResetStatus() == SET);
+
 //mac config
 
-//dma config
+	ETH_StructInit(&e);
+	e.ETH_AutoNegotiation = ETH_AutoNegotiation_Disable;
+	e.ETH_Speed = ETH_Speed_100M;
+	e.ETH_ChecksumOffload = ETH_ChecksumOffload_Enable;
+	e.ETH_BroadcastFramesReception = ETH_BroadcastFramesReception_Enable;
 
 
+////dma config
+	e.ETH_DropTCPIPChecksumErrorFrame = ETH_DropTCPIPChecksumErrorFrame_Enable;
+	e.ETH_SecondFrameOperate = ETH_SecondFrameOperate_Enable;
+	e.ETH_FixedBurst = ETH_FixedBurst_Enable;
+	e.ETH_RxDMABurstLength = ETH_RxDMABurstLength_32Beat;
+	e.ETH_TxDMABurstLength = ETH_TxDMABurstLength_32Beat;
+	e.ETH_DMAArbitration = ETH_DMAArbitration_RoundRobin_RxTx_2_1;
 
-
+	ETH_Init(&e,PHYAddress);
+	ETH_DMAITConfig(ETH_DMA_IT_NIS | ETH_DMA_IT_R,ENABLE);
 }
 
 

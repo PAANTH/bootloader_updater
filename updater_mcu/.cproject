@@ -48,14 +48,14 @@
 									<listOptionValue builtIn="false" value="../Libraries/STM32F10x_StdPeriph_Driver/inc"/>
 									<listOptionValue builtIn="false" value="../Libraries/CMSIS/Device/ST/STM32F10x/Include"/>
 									<listOptionValue builtIn="false" value="../Libraries/CMSIS/Include"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/lwip-1.3.1/port"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/lwip-1.3.1/src/include"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/lwip-1.3.1/src/include/ipv4"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/lwip-1.3.1/src/include/lwip"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/lwip-1.3.1/src/netif"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/STM32_ETH_Driver/inc"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/STM32_ETH_Driver/src"/>
-									<listOptionValue builtIn="false" value="/updater_mcu/Libraries/premain"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/premain}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/STM32_ETH_Driver/src}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/STM32_ETH_Driver/inc}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/lwip-1.3.1/src/netif}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/lwip-1.3.1/src/include/lwip}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/lwip-1.3.1/src/include/ipv4}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/lwip-1.3.1/src/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/updater_mcu/Libraries/lwip-1.3.1/port}&quot;"/>
 								</option>
 								<option id="com.atollic.truestudio.common_options.target.endianess.1579040759" name="Endianess" superClass="com.atollic.truestudio.common_options.target.endianess"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.1716997269" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" value="STM32F107VC" valueType="enumerated"/>
@@ -114,7 +114,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="lwip-1.3.1/src/core/ipv6|lwip-1.3.1/port/tftpserver.c|lwip-1.3.1/port/server.c|lwip-1.3.1/port/httpd.c|lwip-1.3.1/port/helloworld.c|lwip-1.3.1/port/fsdata.c|lwip-1.3.1/port/client.c|lwip-1.3.1/port/arch" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libraries"/>
+						<entry excluding="lwip-1.3.1/src/core/snmp|lwip-1.3.1/src/core/ipv6|lwip-1.3.1/port/tftpserver.c|lwip-1.3.1/port/server.c|lwip-1.3.1/port/httpd.c|lwip-1.3.1/port/helloworld.c|lwip-1.3.1/port/fsdata.c|lwip-1.3.1/port/client.c|lwip-1.3.1/port/arch" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libraries"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -226,7 +226,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="lwip-1.3.1/src/core/ipv6|lwip-1.3.1/port/tftpserver.c|lwip-1.3.1/port/server.c|lwip-1.3.1/port/httpd.c|lwip-1.3.1/port/helloworld.c|lwip-1.3.1/port/fsdata.c|lwip-1.3.1/port/client.c|lwip-1.3.1/port/arch" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libraries"/>
+						<entry excluding="lwip-1.3.1/src/core/snmp|lwip-1.3.1/src/core/ipv6|lwip-1.3.1/port/tftpserver.c|lwip-1.3.1/port/server.c|lwip-1.3.1/port/httpd.c|lwip-1.3.1/port/helloworld.c|lwip-1.3.1/port/fsdata.c|lwip-1.3.1/port/client.c|lwip-1.3.1/port/arch" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Libraries"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
