@@ -11,20 +11,21 @@
 #include "stm32f10x_crc.h"
 #include "stm32f10x_tim.h"
 
-#define UPD_COMMAND_SIZE		3
-#define HEADER_SIZE				16
-#define NEW_CORE_START_ADDRESS  0x08010000
-
+#define UPD_COMMAND_SIZE	3
+#define HEADER_SIZE	16
+#define NEW_CORE_START_ADDRESS	0x08010000
+#define STM32F107_LAST_PAGE_ADDR	0x0803F800
+#define STM32F107_PAGE_SIZE	0x800
 
 uint8_t write_header(uint8_t *buf);
 uint8_t write_core_chunk(uint8_t *buf, uint16_t count, uint32_t addr);
-uint8_t erase_sector(uint8_t sector);
+uint8_t erase_sector(uint32_t start_page_addr, uint8_t pages_amount);
 uint32_t upd_calc_crc(uint32_t core_size);
 
 //flag that core update is in process. Once set, must never be reset
 uint8_t g_upd=0;
 uint32_t errno=0;
-
+uint32_t crc_val=0;
 /**
  * @brief checks if in received buffer is 3 bytes and they are "upd".
  * This means that a new version of a core is ready to be transmitted.
@@ -44,7 +45,6 @@ uint8_t check_upd_request(uint8_t *buf, uint16_t count){
 			FLASH_Unlock();
 		}
 	}
-
 	return ret_val;
 }
 
@@ -110,7 +110,7 @@ uint8_t write_header(uint8_t *buf){
 	FLASH_Status st;
 	uint8_t ret_val = ALL_OK;
 	for(int i=0; i<HEADER_SIZE;i+=4){
-		st = FLASH_ProgramWord(NEW_CORE_START_ADDRESS+i,*(uint32_t *)&buf[i]);
+		st = FLASH_ProgramWord(NEW_CORE_START_ADDRESS+i,*((uint32_t *)&buf[i]));
 		if(st != FLASH_COMPLETE){
 			errno = FLASH_WRITE_ERR;
 			return GENERAL_ERROR;
@@ -133,8 +133,8 @@ uint8_t write_header(uint8_t *buf){
 uint8_t write_core_chunk(uint8_t *buf, uint16_t count, uint32_t addr){
 	FLASH_Status st;
 	uint8_t ret_val = ALL_OK;
-	for(int i=0; i<count*4;i+=4){
-		st = FLASH_ProgramWord(addr+i,(uint32_t *)&buf[i]);
+	for(int i=0; i<count;i+=4){
+		st = FLASH_ProgramWord(addr+i,*((uint32_t *)&buf[i]));
 		if(st != FLASH_COMPLETE){
 			errno = FLASH_WRITE_ERR;
 			return GENERAL_ERROR;
@@ -201,7 +201,7 @@ uint32_t upd_calc_crc(uint32_t core_size){
 	ret_val = CRC_CalcBlockCRC((uint32_t *)NEW_CORE_START_ADDRESS,core_size);
 	st = FLASH_ProgramWord(NEW_CORE_START_ADDRESS+core_size,ret_val);
 	if(st != FLASH_COMPLETE){
-		g_vars.errno = FLASH_WRITE_ERR;
+		errno = FLASH_WRITE_ERR;
 		return 0xFFFFFFFF;
 	}
 	return ret_val;

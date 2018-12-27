@@ -20,6 +20,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "defs.h"
+#include "updater.h"
 
 #define PHYAddress 0x00
 #define LOCAL_FIRST_OCTET	192
@@ -54,16 +55,16 @@ struct pbuf *p_tx;
 struct udp_pcb *upcb_tx;
 struct pbuf *p_upd_tx;
 struct udp_pcb *upcb_upd;
-
+struct netif netif;
 uint8_t rx_buff[RX_PACKET_SIZE];
 uint8_t rx_upd_buff[RX_UPD_PACKET_SIZE];
-uint8_t tx_buf[TX_PACK_SIZE];
+uint8_t tx_buf[TX_PACKET_SIZE];
 
-extern uint8_t g_upd;
+extern uint8_t g_upd; //TODO in main program must be procedure checking this flag and shuts down all activities on it's setup
 
 
 void eth_config(void);
-void lwip_init(void);
+void lwip_initialization(void);
 //void udp_receive_callback(void *arg, struct udp_pcb *upcb, struct pbuf *p, struct ip_addr *addr, u16_t port);
 void udp_receive_callback(struct pbuf *p);
 void udp_configuration(void);
@@ -87,7 +88,7 @@ void udp_upd_receive_callback(struct pbuf *p);
 void eth_initialisation(void){
 
 	eth_config();
-	lwip_init();
+	lwip_initialization();
 	udp_configuration();
 }
 
@@ -175,8 +176,8 @@ void eth_config(void)
  * @param none
  * @return none
  * */
-void lwip_init(void)
-{
+void lwip_initialization(void){
+
 	struct ip_addr ipaddr;
 	struct ip_addr netmask;
 	struct ip_addr gw;
@@ -227,9 +228,10 @@ void lwip_pkt_handle(void){
  * */
 void lwip_periodic_handle(__IO u32 localtime){
 
-	if (localtime - ARPTimer >= ARP_TMR_INTERVAL)
+	static uint32_t arp_timer = 0;
+	if (localtime - arp_timer >= ARP_TMR_INTERVAL)
 	{
-		ARPTimer =  localtime;
+		arp_timer =  localtime;
 		etharp_tmr();
 	}
 }
@@ -257,7 +259,7 @@ void udp_receive_configuration(void){
 		udp_connect(upcb, &remote_ip_addr, REMOTE_TX_PORT);
 		if(err == ERR_OK)
 		{
-			udp_recv(upcb, udp_receive_callback, NULL);
+			udp_recv(upcb, (void *)udp_receive_callback, NULL);
 		}
 	}
 }
@@ -282,7 +284,7 @@ void udp_update_configuration(void){
 		udp_connect(upcb_upd, &remote_ip_addr, UPDATE_PORT_LOCAL);
 		if(upd_err == ERR_OK)
 		{
-			udp_recv(upcb_upd, udp_upd_receive_callback, NULL);
+			udp_recv(upcb_upd, (void *)udp_upd_receive_callback, NULL);
 		}
 	}
 }

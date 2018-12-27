@@ -1,0 +1,8 @@
+core_cm3.h:1107:22:NVIC_SystemReset	4	static
+updater.c:38:9:check_upd_request	24	static
+updater.c:61:9:handle_upd_packet	24	static
+updater.c:109:9:write_header	24	static
+updater.c:133:9:write_core_chunk	32	static
+updater.c:154:6:upd_finished	8	static
+updater.c:170:9:erase_sector	32	static
+updater.c:198:10:upd_calc_crc	24	static

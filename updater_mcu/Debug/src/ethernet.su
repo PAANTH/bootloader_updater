@@ -1,0 +1,14 @@
+ethernet.c:88:6:eth_initialisation	8	static
+ethernet.c:101:6:eth_config	208	static
+ethernet.c:179:6:lwip_initialization	48	static
+ethernet.c:205:6:udp_configuration	8	static
+ethernet.c:218:6:lwip_pkt_handle	8	static
+ethernet.c:229:6:lwip_periodic_handle	16	static
+ethernet.c:244:6:udp_receive_configuration	24	static
+ethernet.c:272:6:udp_update_configuration	24	static
+ethernet.c:299:6:udp_receive_callback	16	static
+ethernet.c:314:6:udp_upd_receive_callback	24	static
+ethernet.c:345:6:udp_transmit_configuration	24	static
+ethernet.c:371:6:udp_data_transmit	8	static
+ethernet.c:385:6:send_updater_ack	8	static
+ethernet.c:398:6:send_updater_nack	8	static
