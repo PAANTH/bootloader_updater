@@ -12,5 +12,7 @@
 void eth_initialisation(void);
 void lwip_pkt_handle(void);
 void lwip_periodic_handle(u32 localtime);
+void udp_data_transmit(void);
+
 #endif /* ETHERNET_H_ */
 

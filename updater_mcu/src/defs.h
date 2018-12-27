@@ -9,22 +9,12 @@
 #define DEFS_H_
 
 #define SYSTEMTICK_PERIOD_MS	1
-#define TX_PACKET_SIZE 			3
-#define RX_PACKET_SIZE 			512
-#define UPD_ACK_PKT_SIZE		3
-#define UPD_NACK_PKT_SIZE		3
+
+
 #define UPD_COMMAND_SIZE		3
 #define HEADER_SIZE				16
 #define NEW_CORE_START_ADDRESS  0x0801000
 #define NEW_CORE_SECTOR			4
-#define REMOTE_RX_PORT 			50001 //dst port
-#define REMOTE_TX_PORT 			51004
-
-#define DEVICE_TX_PORT 			50002 //src port
-#define DEVICE_RX_PORT 			51003
-
-#define UPDATE_PORT_LOCAL		55555
-#define UPDATE_PORT_REMOTE		55556
 
 
 typedef enum{
