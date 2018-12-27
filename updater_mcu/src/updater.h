@@ -10,5 +10,5 @@
 #include "inttypes.h"
 uint8_t check_upd_request(uint8_t *buf, uint16_t count);
 uint8_t handle_upd_packet(uint8_t *buf, uint16_t count);
-void upd_finished();
+void upd_finished(void);
 #endif /* UPDATER_H_ */

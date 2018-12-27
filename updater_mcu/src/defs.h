@@ -10,13 +10,6 @@
 
 #define SYSTEMTICK_PERIOD_MS	1
 
-
-#define UPD_COMMAND_SIZE		3
-#define HEADER_SIZE				16
-#define NEW_CORE_START_ADDRESS  0x0801000
-#define NEW_CORE_SECTOR			4
-
-
 typedef enum{
 	ALL_OK = 0,
 	FLASH_WRITE_ERR,

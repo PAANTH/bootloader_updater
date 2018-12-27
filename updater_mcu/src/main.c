@@ -8,6 +8,7 @@ File:     main.c
 #include "sys_init.h"
 /**GLOBAL VARS**/
 uint32_t local_time =0;
+
 /***************/
 
 

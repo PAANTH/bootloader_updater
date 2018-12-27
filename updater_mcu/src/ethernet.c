@@ -58,7 +58,7 @@ struct udp_pcb *upcb_upd;
 uint8_t rx_buff[RX_PACKET_SIZE];
 uint8_t rx_upd_buff[RX_UPD_PACKET_SIZE];
 uint8_t tx_buf[TX_PACK_SIZE];
-//TODO this flag setup when update starts
+
 extern uint8_t g_upd;
 
 
@@ -380,7 +380,6 @@ void udp_data_transmit(void){
  * @param none
  * @return none
  * */
-
 void send_updater_ack(void){
 
 	p_upd_tx = pbuf_alloc(PBUF_TRANSPORT, UPD_ACK_PKT_SIZE , PBUF_RAM);
