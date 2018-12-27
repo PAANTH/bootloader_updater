@@ -5,10 +5,10 @@ File:     main.c
 ******************************************************************************
 */
 #include "stm32f10x.h"
-
-//TODO clk config
-
-
+#include "sys_init.h"
+/**GLOBAL VARS**/
+uint32_t local_time =0;
+/***************/
 
 
 /**

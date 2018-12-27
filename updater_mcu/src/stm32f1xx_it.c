@@ -29,17 +29,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_it.h"
-
-/** @addtogroup IO_Toggle
-  * @{
-  */
-
-/* Private typedef -----------------------------------------------------------*/
-/* Private define ------------------------------------------------------------*/
-/* Private macro -------------------------------------------------------------*/
-/* Private variables ---------------------------------------------------------*/
-/* Private function prototypes -----------------------------------------------*/
-/* Private functions ---------------------------------------------------------*/
+#include "ethernet.h"
+#include "stm32_eth.h"
+extern uint32_t localtime;
 
 /******************************************************************************/
 /*            Cortex-M Processor Exceptions Handlers                          */
@@ -140,6 +132,8 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
+	localtime++;
+	lwip_periodic_handle(localtime);
 }
 
 /******************************************************************************/
@@ -150,17 +144,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief  This function handles PPP interrupt request.
-  * @param  None
-  * @retval None
-  */
-/*void PPP_IRQHandler(void)
+ * @brief this function handles ETH interrupt request.
+ * @param none
+ * @return none
+ * */
+void ETH_IRQHandler(void)
 {
-}*/
+	while(ETH_GetRxPktSize() != 0)
+	{
+		lwip_pkt_handle();
+	}
 
-/**
-  * @}
-  */ 
+  ETH_DMAClearITPendingBit(ETH_DMA_IT_R);
+  ETH_DMAClearITPendingBit(ETH_DMA_IT_NIS);
+}
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
