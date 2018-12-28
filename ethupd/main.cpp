@@ -1,11 +1,17 @@
 #include <iostream>
 #include <string.h>
 #include "eth.h"
-using namespace std;
+#include <stdio.h>
+#include "fcntl.h"
+#include "sys/types.h"
+#include "unistd.h"
 
+using namespace std;
+ uint8_t buf[512];
 int main(int argc, char *argv[])
 {
-    string path;
+    uint8_t ret_val=0;
+
     string ip;
     uint16_t port = 50000;
     cout << "UPDATER ver.0.1" << endl;
@@ -17,24 +23,55 @@ int main(int argc, char *argv[])
 
     ip = argv[1];
     port = atoi(argv[2]);
-    path = argv[3];
+
 
     cout<<"device ip: "<<ip<<endl;
     cout<<"device port: "<<port<<endl;
-    cout<<"core image path: "<<path<<endl;
+    cout<<"core image path: "<<argv[3]<<endl;
 
-    eth * e = new eth(ip, port);
-//    if(e->receive_ack() == 0){
-//        cout<<"ACK RECEIVED"<<endl;
-//    }
-    uint8_t buf[5];
-    memset(buf,0xFA,sizeof(buf));
-    if(e->send_data((char *)buf,5) == 5){
-        cout<<"Data send"<<endl;
+    //try to open file
+    int fd = open(argv[3],O_RDONLY);
+    if(fd == -1){
+        cout<<"file open error"<<endl;
+        return -1;
     }
 
-    cout<<"all"<<endl;
+    eth * e = new eth(ip, port);
+
+    buf[0] = 'u';
+    buf[1] = 'p';
+    buf[2] = 'd';
+    if(e->send_data((char *)buf,3) == 3){
+        cout<<"upd command send"<<endl;
+    }
+    ret_val = e->receive_ack();
+    if(ret_val){
+        cout<<"no ack"<<endl;
+        return -1;
+    }
+    ssize_t res=0;
+    while(1){
+        res = read(fd,buf,512);
+
+        ret_val = e->send_data(buf,512);
+        memset(buf,0,512);
+        if(e->receive_ack()){
+            cout<<"transmission fuckup, abort..."<<endl;
+            //TODO how to implement abort if no connection?
+            //maybe add to bootloader a crc check
+            return -1;
+        }
+
+        if(ret_val < 512){
+            break;
+        }
+
+
+
+    }
+
 
 
     return 0;
 }
+

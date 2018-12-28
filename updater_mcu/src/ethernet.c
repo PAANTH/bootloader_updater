@@ -329,7 +329,9 @@ void udp_upd_receive_callback(struct pbuf *p){
 	else{
 		if(p->len <= sizeof(rx_upd_buff)){
 			memcpy(rx_upd_buff, p->payload , p->len);
-			check_upd_request(rx_buff,p->len); //ret_val not used
+			if(check_upd_request(rx_buff,p->len) == 1 ){
+				send_updater_ack();
+			}
 		}
 	}
 	while( 0 == pbuf_free(p));

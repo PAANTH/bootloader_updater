@@ -16,7 +16,7 @@ public:
     uint8_t send_data(char * buf, uint32_t count);
 private:
     void init_send(string ip, uint16_t remote_port);
-    void init_receive();
+    void init_receive(void);
     struct sockaddr_in si_local, si_remote;
     int local_socket;
     int send_len;

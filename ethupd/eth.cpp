@@ -11,8 +11,12 @@ eth::eth(string ip, uint16_t remote_port)
 
 }
 
-
-void eth::init_receive(){
+/**
+* @brief receive configuration initialization
+* @param none
+* @return none
+*/
+void eth::init_receive(void){
 
     if((local_socket = socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP)) == -1){
         die("Can not create socket");
@@ -24,13 +28,17 @@ void eth::init_receive(){
     si_local.sin_addr.s_addr = htonl(INADDR_ANY);
 
     if(bind(local_socket,(struct sockaddr*)&si_local,sizeof(si_local)) == -1){
-        //cout<<errno<<endl;
         die("Can not bind socket");
     }
     cout<<"init rcv is ok"<<endl;
 }
 
-
+/**
+*@brief send configuration initialization
+* @param ip - destination ip address
+* @param remote_port - destination port
+* @return none
+*/
 void eth::init_send(string ip, uint16_t remote_port){
     send_len = sizeof(si_remote);
 
@@ -43,11 +51,9 @@ void eth::init_send(string ip, uint16_t remote_port){
     struct timeval tv;
     tv.tv_sec = 5;
     tv.tv_usec = 0;
-    cout<<errno<<endl;
     int rv = setsockopt(local_socket,SOL_SOCKET,SO_RCVTIMEO,&tv,sizeof(tv));
     if( rv < 0){
-        //cout<<rv<<endl;
-        //cout<<errno<<endl;
+
         die("Can not set sock opt");
     }
 
@@ -55,12 +61,20 @@ void eth::init_send(string ip, uint16_t remote_port){
     cout<<"init send is ok"<<endl;
 }
 
+
+/**
+* @brief die and exit; call in case of error
+* @param text - error message text
+* @return none
+*/
 void eth::die(string text){
     cout<<text<<endl;
     exit(1);
 }
 
 /**
+* @brief waits for ack from mcu
+* @param none
 * @returns - 0 if ack; 1 if nack; 2 if error
 */
 uint8_t eth::receive_ack(void){
@@ -81,9 +95,17 @@ uint8_t eth::receive_ack(void){
     return ret_val;
 }
 
+
+/**
+* @brief sends a given amount of data to a ip/port set in launch
+* @param buf - uint8_t buffer to a buffer to send
+* @param count - amount of bytes to send
+* @return ret - amount af bytes succesfully sent; if negative then error
+*/
 uint8_t eth::send_data(char * buf, uint32_t count){
     int ret = sendto(local_socket,buf,count,0,(struct sockaddr*)&si_remote,sizeof(si_remote));
     if(ret<0){
         cout<<"Send failure"<<endl;
     }
+    return ret;
 }
