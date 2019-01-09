@@ -51,9 +51,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../ethupd/main.cpp \
-		../ethupd/eth.cpp 
+		../ethupd/eth.cpp \
+		../ethupd/crc_32.cpp 
 OBJECTS       = main.o \
-		eth.o
+		eth.o \
+		crc_32.o
 DIST          = /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/common/unix.conf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/common/linux.conf \
@@ -214,6 +216,7 @@ DIST          = /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/spec_pre.prf 
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/qt_config.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/spec_post.prf \
+		../ethupd/.qmake.stash \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/toolchain.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -227,8 +230,10 @@ DIST          = /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/spec_pre.prf 
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/exceptions.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/yacc.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/lex.prf \
-		../ethupd/ethupd.pro eth.h ../ethupd/main.cpp \
-		../ethupd/eth.cpp
+		../ethupd/ethupd.pro eth.h \
+		crc_32.h ../ethupd/main.cpp \
+		../ethupd/eth.cpp \
+		../ethupd/crc_32.cpp
 QMAKE_TARGET  = ethupd
 DESTDIR       = 
 TARGET        = ethupd
@@ -400,6 +405,7 @@ Makefile: ../ethupd/ethupd.pro /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/linux-g
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/qt_config.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/toolchain.prf \
 		/home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -575,6 +581,7 @@ Makefile: ../ethupd/ethupd.pro /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/linux-g
 /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/qt_config.prf:
 /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/toolchain.prf:
 /home/paanth/Qt5.9.2/5.9.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -637,6 +644,9 @@ main.o: ../ethupd/main.cpp ../ethupd/eth.h
 
 eth.o: ../ethupd/eth.cpp ../ethupd/eth.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o eth.o ../ethupd/eth.cpp
+
+crc_32.o: ../ethupd/crc_32.cpp ../ethupd/crc_32.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o crc_32.o ../ethupd/crc_32.cpp
 
 ####### Install
 

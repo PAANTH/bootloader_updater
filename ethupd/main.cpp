@@ -5,7 +5,7 @@
 #include "fcntl.h"
 #include "sys/types.h"
 #include "unistd.h"
-
+#include "crc_32.h"
 
 using namespace std;
  uint8_t buf[512];
@@ -16,6 +16,11 @@ int main(int argc, char *argv[])
     string ip;
     uint16_t port = 50000;
     cout << "UPDATER ver.0.1" << endl;
+
+
+
+    crc_32 * crc_c = new crc_32();
+    crc_c->fill_table();
     if(argc != 4){
         cout<<"usage:"<<endl;
         cout<<"     <device ip>  <device port>  <core image path>"<<endl;
@@ -38,7 +43,6 @@ int main(int argc, char *argv[])
     }
 
     eth * e = new eth(ip, port);
-
     buf[0] = 'u';
     buf[1] = 'p';
     buf[2] = 'd';
@@ -71,7 +75,7 @@ int main(int argc, char *argv[])
 
     }
 
-    crc = calc_crc(fd);
+    //crc = crc->calc_crc(fd);
 
     buf[0] = 'c';
     buf[1] = 'r';
