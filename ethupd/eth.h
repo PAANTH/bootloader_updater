@@ -14,6 +14,7 @@ public:
     eth(string ip, uint16_t remote_port);
     uint8_t receive_ack(void);
     uint8_t send_data(char * buf, uint32_t count);
+    uint32_t receive_crc(uint32_t original_crc);
 private:
     void init_send(string ip, uint16_t remote_port);
     void init_receive(void);

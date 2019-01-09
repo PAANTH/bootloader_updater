@@ -6,12 +6,13 @@
 #include "sys/types.h"
 #include "unistd.h"
 
+
 using namespace std;
  uint8_t buf[512];
 int main(int argc, char *argv[])
 {
-    uint8_t ret_val=0;
-
+    uint16_t ret_val=0;
+    uint32_t crc=0xFFFFFFFF;
     string ip;
     uint16_t port = 50000;
     cout << "UPDATER ver.0.1" << endl;
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
     while(1){
         res = read(fd,buf,512);
 
-        ret_val = e->send_data(buf,512);
+        ret_val = e->send_data((char*)buf,512);
         memset(buf,0,512);
         if(e->receive_ack()){
             cout<<"transmission fuckup, abort..."<<endl;
@@ -70,14 +71,17 @@ int main(int argc, char *argv[])
 
     }
 
+    crc = calc_crc(fd);
 
     buf[0] = 'c';
     buf[1] = 'r';
     buf[2] = 'c';
     if(e->send_data((char *)buf,3) == 3){
-        cout<<"crc calculation command send"<<endl;
+        cout<<"crc calculation command send...";
     }
-
+    if(e->receive_crc(crc) !=0){
+        return -1;
+    }
     return 0;
 }
 

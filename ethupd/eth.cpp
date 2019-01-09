@@ -107,15 +107,15 @@ uint32_t eth::receive_crc(uint32_t original_crc){
     int16_t rec_len=0;
     rec_len = recvfrom(local_socket,recv_buff,sizeof(uint32_t),0,(struct sockaddr *)&si_remote,(socklen_t *)&(send_len));
     if(rec_len != sizeof(uint32_t)){ //if size is ok
-        count<<"Received size is not OK"<<endl;
+        cout<<"Received size is not OK"<<endl;
         return 2;
     }
     recv_crc  = *((uint32_t*)recv_buff);
     if(recv_crc != original_crc){
-        count<<"Received crc is not OK"<<endl;
+        cout<<"Received crc is not OK"<<endl;
         return 1;
     }
-    count<<"OK"<<endl;
+    cout<<"OK"<<endl;
     return 0;
 }
 

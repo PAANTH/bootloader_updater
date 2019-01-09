@@ -4,7 +4,9 @@ CONFIG -= app_bundle
 CONFIG -= qt
 QMAKE_LFLAGS += -no-pie
 SOURCES += main.cpp \
-    eth.cpp
+    eth.cpp \
+    crc_32.cpp
 
 HEADERS += \
-    eth.h
+    eth.h \
+    crc_32.h
