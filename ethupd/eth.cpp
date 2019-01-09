@@ -96,6 +96,30 @@ uint8_t eth::receive_ack(void){
 }
 
 
+
+/**
+* @brief waits for ack from mcu
+* @param none
+* @returns - 0 if crc ok; 1 if not ok; 2 if error
+*/
+uint32_t eth::receive_crc(uint32_t original_crc){
+    uint32_t recv_crc=0;
+    int16_t rec_len=0;
+    rec_len = recvfrom(local_socket,recv_buff,sizeof(uint32_t),0,(struct sockaddr *)&si_remote,(socklen_t *)&(send_len));
+    if(rec_len != sizeof(uint32_t)){ //if size is ok
+        count<<"Received size is not OK"<<endl;
+        return 2;
+    }
+    recv_crc  = *((uint32_t*)recv_buff);
+    if(recv_crc != original_crc){
+        count<<"Received crc is not OK"<<endl;
+        return 1;
+    }
+    count<<"OK"<<endl;
+    return 0;
+}
+
+
 /**
 * @brief sends a given amount of data to a ip/port set in launch
 * @param buf - uint8_t buffer to a buffer to send

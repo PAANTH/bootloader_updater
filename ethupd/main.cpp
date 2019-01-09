@@ -71,6 +71,12 @@ int main(int argc, char *argv[])
     }
 
 
+    buf[0] = 'c';
+    buf[1] = 'r';
+    buf[2] = 'c';
+    if(e->send_data((char *)buf,3) == 3){
+        cout<<"crc calculation command send"<<endl;
+    }
 
     return 0;
 }
